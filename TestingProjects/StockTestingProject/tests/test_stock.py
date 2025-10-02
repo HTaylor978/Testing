@@ -96,3 +96,46 @@ class TestStock(TestCase):
         s.buy(51)
 
         self.assertAlmostEqual(477.3, s.get_total_value_bought(), 5,"Stock with 10 shares at 10.5 and 51 shares at 7.3 should have total of 477.3")
+
+    def test_total_value_sold_is_105_with_10_sells_of_10_point_5(self):
+        exchange_mock = Mock()
+        exchange_mock.get_price.return_value = 10.5
+
+        s = Stock('GGL', exchange_mock)
+        s.sell(10)
+
+        self.assertAlmostEqual(105, s.get_total_value_sold(), 5, "Stock with 10 sell shares at 10.5 should have total of 105")
+
+
+    def test_total_value_sold_is_477_point_3_with_10_sells_of_10_point_5_and_51_sells_of_7_point_3(self):
+        exchange_mock = Mock()
+        exchange_mock.get_price.return_value = 10.5
+
+        s = Stock('GGL', exchange_mock)
+        s.sell(10)
+
+        exchange_mock.get_price.return_value = 7.3
+        s.sell(51)
+
+        self.assertAlmostEqual(477.3, s.get_total_value_sold(), 5, "Stock with 10 sell shares at 10.5 and 51 sell shares at 7.3 should have total of 477.3")
+
+    def test_biggest_value_is_572_point_8_with_32_buys_at_17_point_9(self):
+        exchange_mock = Mock()
+        exchange_mock.get_price.return_value = 17.9
+
+        s = Stock('GGL', exchange_mock)
+        s.buy(32)
+
+        self.assertAlmostEqual(572.8, s.get_biggest_value(), 5, "Stock with 32 buy at 17.9 should have biggest value of 572.8")
+
+    def test_biggest_value_is_1108_point_36_with_45_buys_at_12_point_3_and_11_buys_at_100_point_76(self):
+        exchange_mock = Mock()
+        exchange_mock.get_price.return_value = 12.3
+
+        s = Stock('GGL', exchange_mock)
+        s.buy(45)
+
+        exchange_mock.get_price.return_value = 100.76
+        s.buy(11)
+
+        self.assertAlmostEqual(1108.36, s.get_biggest_value(), 5, "Stock with 45 buys at 12.3 (value = 553.5) and 11 buys at 100.76 (value = 1108.36) should have biggest value of 1108.36")

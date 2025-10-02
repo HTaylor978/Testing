@@ -37,7 +37,11 @@ class Stock:
         return value
 
     def get_total_value_sold(self):
-        return 0.0
+        value = 0
+        for trade in self._trades:
+            if trade['side'] == 'SELL':
+                value += trade['price'] * trade['quantity']
+        return value
 
     def get_biggest_quantity_buy(self):
         quantity = 0
@@ -48,7 +52,12 @@ class Stock:
         return quantity
 
     def get_biggest_value(self):
-        pass
+        value = 0
+        for trade in self._trades:
+            current = trade['price'] * trade['quantity']
+            if current > value:
+                value = current
+        return value
 
     # Your tasks:
     #
